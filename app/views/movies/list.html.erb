@@ -1,0 +1,18 @@
+<h1>Movies</h1>
+
+<div id="encoding-status"></div>
+<div id="encoding-progress"></div>
+
+<ul id="file-list">
+<%- @files.each do |f| %>
+  <li><%= f %>  
+  <span id="link">
+    <%=link_to 'generate thumbs', {:action => "encode", :file => f }, 
+      :class=>"gen-thumb-link",:remote => true %>
+  </span>  
+  </li> 
+
+<% end %>
+</ul>  
+
+<div id="images">images</div>

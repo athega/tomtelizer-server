@@ -1,0 +1,11 @@
+<ul>
+  <%- @images.each do |i| %>
+    <%- if i[:thumb].include?("working") %>
+      <li><div class="working-image"><%=image_tag i[:thumb]%></div></li>
+    <%- else %>
+      <li><%=image_tag i[:thumb], :title =>i[:target], :onclick=>"showImage(this.title)",
+                                  :metadata => i[:metadata]%></li>
+    <%- end %>
+<%end%>
+</ul>
+<div style="float:none; clear:both"></div>

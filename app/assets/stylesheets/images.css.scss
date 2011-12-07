@@ -1,0 +1,45 @@
+// Place all the styles related to the images controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#target {
+  width: 600;
+  height:400;
+  border: 1px solid black;
+}
+
+.working-image {
+  width: 66px;
+  padding-top: 70px;
+  padding-left: 42px;
+}
+
+div#image-container {
+  
+  width: 100%;
+  height: 164px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  padding: 0;
+  margin: 0;
+
+  div#images {
+    
+    width: 10000px; /*will be updated after load*/
+    border: 0;
+    /*height: 149px;*/
+    overflow: hidden;
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      li {
+        float: left;
+        img {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
