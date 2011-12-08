@@ -15,9 +15,10 @@ class ImagesControllerTest < ActionController::TestCase
 
     assert_difference('Image.count', 1) do
       assert_difference('FaceFeature.count', 2) do
-        
-        #multiple features: features[][left_eye_x]=123 etc
-        get :new, :uploaded => file, :features => [{ :left_eye_x => 12,
+       
+        #/images/new
+        #post data format: features[][left_eye_x]=123 etc
+        post :new, :uploaded => file, :features => [{ :left_eye_x => 12,
                                                      :left_eye_y => 13,
                                                      :right_eye_x => 14,
                                                      :right_eye_y => 15,

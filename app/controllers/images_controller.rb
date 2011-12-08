@@ -7,6 +7,11 @@ class ImagesController < ApplicationController
   IMAGE_FILE_REPO = File.join(Rails.root, "public", "uploaded_images")
   
   def new
+    unless request.post?
+      logger.info "unsupported method."
+      return
+    end
+
     logger.info("got data:")
     puts params["uploaded"].inspect
 
