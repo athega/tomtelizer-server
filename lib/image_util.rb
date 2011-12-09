@@ -31,13 +31,10 @@ class ImageUtil
 
         next unless feature_is_valid?(feature)
 
-        draw_triangle(img, height, feature)
-
         hat_position = HatCalculator.calculate_position(feature)
         puts hat_position.inspect
         unless(hat_position.nil?)
 
-          draw_rim(img, height, hat_position)
 
           #add HAT!
           hat = Image.read(File.join(Rails.root 'public','images','santa-hat.png'))[0]
@@ -51,7 +48,6 @@ class ImageUtil
           hat.rotate!(angle)
           width_rotation_correction = (hat.columns-pre_rot_width)/2
 
-          draw_hat_frame(hat)
 
           inner_image = img[0]
 
