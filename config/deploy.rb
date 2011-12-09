@@ -48,10 +48,6 @@ namespace :deploy do
   task :stop do
   end
 
-  after 'deploy:update_code' do
-    # run "cd #{release_path}; RAILS_ENV=production rake assets:precompile"
-  end
-
   # Delayed Job
   before "deploy:restart", "delayed_job:stop"
   after  "deploy:restart", "delayed_job:start"
@@ -61,10 +57,12 @@ namespace :deploy do
 
   task :restart, :roles => :app, :except => { :no_release => true } do
     db_path = "/var/www/apps/#{application}/shared/production.sqlite3"
-    images_path = "/var/www/vhosts/assets.athega.se/jullunch/tomtelizer/"
+    images_path = "/var/www/vhosts/assets.athega.se/jullunch/tomtelizer"
 
     run "ln -sf #{db_path} /#{File.join(current_path,'db','production.sqlite3')}"
-    run "ln -sf #{images_path} /#{File.join(current_path,'public','uploaded_images')}"
+
+    run "rm -rf /#{File.join(current_path,'public','uploaded_images')}"
+    run "ln -sf #{images_path} /var/www/apps/#{application}/current/public/uploaded_images"
 
     run "touch #{File.join(current_path,'tmp','restart.txt')}"
   end
