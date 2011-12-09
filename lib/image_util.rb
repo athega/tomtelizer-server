@@ -28,7 +28,7 @@ class ImageUtil
 
       puts "image has features.."
       image.face_features.each do |feature|
-      
+
         next unless feature_is_valid?(feature)
 
         draw_triangle(img, height, feature)
@@ -36,25 +36,25 @@ class ImageUtil
         hat_position = HatCalculator.calculate_position(feature)
         puts hat_position.inspect
         unless(hat_position.nil?)
-          
+
           draw_rim(img, height, hat_position)
 
           #add HAT!
-          hat = Image.read(File.join(Rails.root,'app','assets','images','santa-hat.png'))[0]
+          hat = Image.read(File.join(Rails.root 'public','images','santa-hat.png'))[0]
           hat.background_color = 'none'
           angle = -1 * hat_position[:angle]
           puts  "angle: #{angle}"
 
           hat.resize_to_fit!(hat_position[:len] + hat_position[:len] * HAT_SCALE_FACTOR)
-        
+
           pre_rot_width = hat.columns
           hat.rotate!(angle)
           width_rotation_correction = (hat.columns-pre_rot_width)/2
-          
+
           draw_hat_frame(hat)
 
           inner_image = img[0]
-         
+
           center_x = hat_position[:left][:x] + (hat_position[:right][:x] - hat_position[:left][:x])/2
           center_y = hat_position[:left][:y] + (hat_position[:right][:y] - hat_position[:left][:y])/2
 
@@ -69,11 +69,11 @@ class ImageUtil
 
           feature.update_attributes(coords)
 
-          inner_image.composite!(hat, ForgetGravity, 
-                                 center_x - hat.columns/2, 
-                                 height - center_y - hat.rows/2, 
+          inner_image.composite!(hat, ForgetGravity,
+                                 center_x - hat.columns/2,
+                                 height - center_y - hat.rows/2,
                                  OverCompositeOp)
-          
+
         end
 
       end
@@ -81,9 +81,9 @@ class ImageUtil
     end
     #we must have a 'hatified' image even though we dont have any feature data..
     img.write(File.join(ImageUtil.repo, "hatified-#{basename}"))
-    
+
     rez = img.resize_to_fit(200, 149)
-    File.open( File.join(ImageUtil.repo, "thumb-#{basename}"), 'w') do |f| 
+    File.open( File.join(ImageUtil.repo, "thumb-#{basename}"), 'w') do |f|
       f.write(rez.to_blob)
     end
 
@@ -109,7 +109,7 @@ class ImageUtil
 
   def draw_triangle(img, height, feature)
     return unless AppConfig::WRITE_FACE_FEATURE_LINES
-    
+
     puts "drawing feature triangle"
     tri = Magick::Draw.new
     tri.stroke('white').stroke_width(2)
@@ -122,18 +122,18 @@ class ImageUtil
 
   def draw_rim(img, height, hat_position)
     return unless AppConfig::WRITE_FACE_FEATURE_LINES
-    
+
     rim = Magick::Draw.new
     rim.stroke('white').stroke_width(4)
     rim.fill('none')
-    rim.line(hat_position[:left][:x].to_i , height - hat_position[:left][:y].to_i, 
+    rim.line(hat_position[:left][:x].to_i , height - hat_position[:left][:y].to_i,
              hat_position[:right][:x].to_i, height - hat_position[:right][:y].to_i)
     rim.draw(img)
   end
 
   def draw_hat_frame(hat)
     return unless AppConfig::WRITE_FACE_FEATURE_LINES
-    
+
     tmp_border = Magick::Draw.new
     tmp_border.stroke('white').stroke_width(4)
     tmp_border.fill('none')
