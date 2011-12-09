@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 require 'RMagick'
 require 'hat_calculator'
 
@@ -79,7 +81,7 @@ class ImageUtil
     img.write(File.join(ImageUtil.repo, "hatified-#{basename}"))
 
     rez = img.resize_to_fit(200, 149)
-    File.open( File.join(ImageUtil.repo, "thumb-#{basename}"), 'w') do |f|
+    File.open( File.join(ImageUtil.repo, "thumb-#{basename}"), 'wb') do |f|
       f.write(rez.to_blob)
     end
 
