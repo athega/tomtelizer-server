@@ -1,0 +1,31 @@
+#target {
+  width: 600;
+  height: 400;
+  border: 1px solid black; }
+
+.working-image {
+  width: 66px;
+  padding-top: 70px;
+  padding-left: 42px; }
+
+div#image-container {
+  width: 100%;
+  height: 164px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  padding: 0;
+  margin: 0; }
+  div#image-container div#images {
+    width: 10000px;
+    /*will be updated after load*/
+    border: 0;
+    /*height: 149px;*/
+    overflow: hidden; }
+    div#image-container div#images ul {
+      list-style: none;
+      padding: 0;
+      margin: 0; }
+      div#image-container div#images ul li {
+        float: left; }
+        div#image-container div#images ul li img {
+          cursor: pointer; }
