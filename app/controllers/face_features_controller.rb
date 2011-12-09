@@ -48,7 +48,7 @@ class FaceFeaturesController < ApplicationController
 
       @feature.destroy
 
-      Delayed::Job.enqueue ProcessImageJob.new(img.to_param, true), 0, 1.seconds.from_now
+      Delayed::Job.enqueue ProcessImageJob.new(img.to_param, true)
 
       redirect_to :controller => :images, :action => :show
     end
