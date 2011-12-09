@@ -1,11 +1,11 @@
 require 'RMagick'
 
 class ImagesController < ApplicationController
-  
+
   protect_from_forgery :except => :new
 
   IMAGE_FILE_REPO = File.join(Rails.root, "public", "uploaded_images")
-  
+
   def new
     unless request.post?
       logger.info "unsupported method."
@@ -26,21 +26,21 @@ class ImagesController < ApplicationController
 
       timestamp = Time.now.to_f.to_s.gsub('.','-')
       img_name = timestamp << ".jpg"
-      
+
       target_path = File.join(IMAGE_FILE_REPO, img_name)
       logger.info "copying file #{f.path} to #{target_path}"
       FileUtils.cp(f.path, target_path)
 
-      
+
       features = params["features"]
       if features.nil?
         features = []
       end
       puts features.inspect
 
-      img = Image.create(:filename => img_name, :face_features_attributes => features, :orientation => params['orientation']) 
-      
-      Delayed::Job.enqueue ProcessImageJob.new(img.to_param, add_hats), 0, 1.seconds.from_now 
+      img = Image.create(:filename => img_name, :face_features_attributes => features, :orientation => params['orientation'])
+
+      Delayed::Job.enqueue ProcessImageJob.new(img.to_param, add_hats)
     end
   end
 
@@ -51,9 +51,9 @@ class ImagesController < ApplicationController
 
   def update_images
     all =  Dir.glob(File.join(IMAGE_FILE_REPO, "thumb-*.jpg")).sort.reverse
-    @images = all.map do |x| 
+    @images = all.map do |x|
       img = File.basename(x)
-      { :thumb => "/uploaded_images/" + img, 
+      { :thumb => "/uploaded_images/" + img,
         :target => "/uploaded_images/hatified-" + img.gsub("thumb-","")}
     end
 
@@ -63,7 +63,7 @@ class ImagesController < ApplicationController
 
     render :layout => false
   end
-  
+
   def latest
     images = Image.find(:all, :order => "created_at desc", :limit => 100);
 
