@@ -54,8 +54,8 @@ function updateImages()
   $.ajax({
     method: 'get',
     url : '/images/update_images',
-    success: function (data) { 
-      $('#images').html(data); 
+    success: function (data) {
+      $('#images').html(data);
       updateWidth();
     }
   });
@@ -64,12 +64,12 @@ function updateImages()
 function updateWidth(){
   var total = 0;
   $('div#images img').each(function(i,e){
-    total += e.width;
+    total += $(e).width;
   });
   $('div#images').width(total);
 }
 
 function startUpdatingImages(){
-  currentInterval = setInterval(function(){ updateImages(); }, 2000);
+  currentInterval = setInterval(function(){ updateImages(); }, 5000);
 }
 

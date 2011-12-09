@@ -22,17 +22,8 @@ class FaceFeaturesController < ApplicationController
 
       raise "no image" if img.nil?
 
-      #to avoid cache in browser for
-      new_img_name = ImageUtil.generate_timestamp_image_name
-
-      target_path = File.join(ImagesController::IMAGE_FILE_REPO, new_img_name)
-      old_file_path = File.join(ImagesController::IMAGE_FILE_REPO, img.filename)
-
       old_thumb_path = File.join(ImagesController::IMAGE_FILE_REPO, "thumb-" + img.filename)
       old_hatified_path = File.join(ImagesController::IMAGE_FILE_REPO, "hatified-" + img.filename)
-
-      logger.info "movind file #{old_file_path} to #{target_path}"
-      FileUtils.mv(old_file_path, target_path)
 
       if (File.exist?(old_thumb_path))
           logger.info "removing old thumb file #{old_thumb_path}"
@@ -42,9 +33,6 @@ class FaceFeaturesController < ApplicationController
           logger.info "removing old hatified file #{old_hatified_path}"
           FileUtils.rm(old_hatified_path)
       end
-
-      img.update_attributes(:filename => new_img_name)
-      #end cache fix
 
       @feature.destroy
 
