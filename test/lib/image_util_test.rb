@@ -51,6 +51,12 @@ class ImageUtilTest < ActiveSupport::TestCase
     assert_nil image.face_features[0].hat_box_bottom_left_y
     assert_nil image.face_features[0].hat_box_bottom_right_x
     assert_nil image.face_features[0].hat_box_bottom_right_y
+    
+    #will be null initially but we have the field in the test fixture
+    original_checksum = image.hatified_file_checksum
+    assert_nil image.hatified_file_size
+    assert_nil image.width
+    assert_nil image.height
 
     u = ImageUtil.new
     u.add_hat(image, true)
@@ -68,6 +74,14 @@ class ImageUtilTest < ActiveSupport::TestCase
 
     assert File.exists?(@result_file1)
     assert File.exists?(@result_file2)
+
+    image.reload
+
+    assert original_checksum != image.hatified_file_checksum
+    puts image.hatified_file_checksum
+    assert_not_nil image.hatified_file_size
+    assert_not_nil image.width
+    assert_not_nil image.height
   end
 
   def test_add_hat_with_corrupt_data

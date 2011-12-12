@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111123100113) do
+ActiveRecord::Schema.define(:version => 20111212162424) do
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -55,6 +55,8 @@ ActiveRecord::Schema.define(:version => 20111123100113) do
     t.datetime "updated_at"
     t.integer  "width"
     t.integer  "height"
+    t.integer  "hatified_file_size"
+    t.string   "hatified_file_checksum"
   end
 
 end

@@ -38,15 +38,15 @@ class ImagesController < ApplicationController
       end
       puts features.inspect
 
-      img = Image.create(:filename => img_name, :face_features_attributes => features, :orientation => params['orientation'])
+      img = Image.create(:filename => img_name, 
+                         :face_features_attributes => features, 
+                         :orientation => params['orientation'])
 
       Delayed::Job.enqueue ProcessImageJob.new(img.to_param, add_hats)
     end
   end
 
-
   def show
-
   end
 
   def update_images
@@ -70,6 +70,8 @@ class ImagesController < ApplicationController
 
     filtered = images.clone
 
+    #technically not needed since we can check for checksum field in db
+    #but kept for now
     images.each do |image|
       t_file = File.join(IMAGE_FILE_REPO, "thumb-#{image.filename}")
       unless generated_files.include?(t_file)

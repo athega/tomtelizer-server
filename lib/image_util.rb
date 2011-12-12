@@ -2,6 +2,7 @@
 
 require 'RMagick'
 require 'hat_calculator'
+require 'digest/md5'
 
 class ImageUtil
 
@@ -22,8 +23,6 @@ class ImageUtil
     width = img[0].columns
     height = img[0].rows
 
-    #UPDATE image data:
-    image.update_attributes(:width => width, :height => height)
 
     if image.face_features.size > 0 && add_hats
 
@@ -79,6 +78,14 @@ class ImageUtil
     end
     #we must have a 'hatified' image even though we dont have any feature data..
     img.write(File.join(ImageUtil.repo, "hatified-#{basename}"))
+
+    hatified_digest = Digest::MD5.hexdigest(img.to_blob)
+    hatified_size = img.to_blob.size
+
+    #UPDATE image data:
+    image.update_attributes(:width => width, :height => height, 
+                            :hatified_file_checksum => hatified_digest,
+                            :hatified_file_size => hatified_size)
 
     rez = img.resize_to_fit(200, 149)
     File.open( File.join(ImageUtil.repo, "thumb-#{basename}"), 'wb') do |f|

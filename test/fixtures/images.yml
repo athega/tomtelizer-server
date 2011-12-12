@@ -7,7 +7,9 @@
 one: 
   id: 1
   filename: testfile.jpg
+  hatified_file_checksum: checksum1
 
 two: 
   id: 2
   filename: apa.jpg
+  hatified_file_checksum: checksum2
