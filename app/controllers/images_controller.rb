@@ -66,8 +66,18 @@ class ImagesController < ApplicationController
 
   def latest
     images = Image.find(:all, :order => "created_at desc", :limit => 100);
+    generated_files = Dir.glob(File.join(IMAGE_FILE_REPO, "thumb-*"))
 
-    render :xml => images.to_xml, :layout => false
+    filtered = images.clone
+
+    images.each do |image|
+      t_file = File.join(IMAGE_FILE_REPO, "thumb-#{image.filename}")
+      unless generated_files.include?(t_file)
+         filtered.delete(image)
+      end
+    end
+
+    render :xml => filtered.to_xml, :layout => false
   end
 
   #FIXME: use image id now instead

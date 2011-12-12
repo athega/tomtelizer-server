@@ -39,4 +39,27 @@ class ImagesControllerTest < ActionController::TestCase
   
   end
 
+  test "latest" do
+
+    mocked_glob_dir_list = [
+      File.join(ImagesController::IMAGE_FILE_REPO, "thumb-#{images(:one).filename}"), 
+      File.join(ImagesController::IMAGE_FILE_REPO, "thumb-#{images(:two).filename}")]
+
+    dir_mock = flexmock(Dir)
+    dir_mock.should_receive(:glob).once.and_return(mocked_glob_dir_list)
+
+    get :latest 
+    assert_response :success
+    assert_select 'images' do |i|
+      assert_select "image", 2
+    end
+    
+  end
+
+
 end
+
+
+
+
+
