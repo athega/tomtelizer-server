@@ -30,8 +30,6 @@ class ImagesControllerTest < ActionController::TestCase
                                                      :right_eye_y => 15,
                                                      :mouth_x => 20,
                                                      :mouth_y => 30} ]
-
-      
       end
     end
     
