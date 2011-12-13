@@ -65,20 +65,13 @@ class ImagesController < ApplicationController
   end
 
   def latest
-    images = Image.find(:all, :order => "created_at desc", :limit => 100);
-    generated_files = Dir.glob(File.join(IMAGE_FILE_REPO, "thumb-*"))
+    images = Image.find(:all, :order => "created_at desc", 
+                        :conditions => "hatified_file_checksum IS NOT NULL", 
+                        :limit => 100);
+    #generated_files = Dir.glob(File.join(IMAGE_FILE_REPO, "thumb-*"))
 
     filtered = images.clone
-
-    #technically not needed since we can check for checksum field in db
-    #but kept for now
-    images.each do |image|
-      t_file = File.join(IMAGE_FILE_REPO, "thumb-#{image.filename}")
-      unless generated_files.include?(t_file)
-         filtered.delete(image)
-      end
-    end
-
+    
     render :xml => filtered.to_xml, :layout => false
   end
 
