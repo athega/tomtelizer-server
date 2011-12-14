@@ -13,6 +13,8 @@ gem 'delayed_job'
 
 gem 'rmagick', :require => false
 
+gem 'factory_girl_rails'
+
 
 # Gems used only for assets and not required
 # in production environments by default.

@@ -37,14 +37,56 @@ class ImagesControllerTest < ActionController::TestCase
   
   end
 
+=begin
   test "latest" do
-    
+  
+    i = Image.new(:filename => "asdasd.jpg", 
+                  :hatified_file_checksum => "checksum123")
+
+    image_mock = flexmock(Image)
+
+    expected_find_args = []
+    image_mock.should_receive(:find).once.
+      
+      with(:all, :order => "created_at desc",
+           :conditions => "hatified_file_checksum IS NOT NULL",
+           :limit => 100).
+      
+      and_return([i])
+
     get :latest 
     assert_response :success
     assert_select 'images' do |i|
-      assert_select "image", 2
+      assert_select "image", 1
     end
-    
+    assert @response.body.include?("asdasd.jpg")
+    assert @response.body.include?("checksum123")
+  end
+=end
+
+  test "latest" do
+    Image.delete_all
+
+    (0..9).each do |i|
+      t = FactoryGirl.build(:image)
+      t.hatified_file_checksum = nil if i%2==0
+      t.save!
+    end
+
+    assert_equal 10, Image.count, "expected 10 images in db"
+
+    get :latest 
+    assert_response :success
+    assert_select 'images' do |i|
+      assert_select "image", 5, "expected to receive only elements with checksums"
+    end
+
+    assert @response.body.include?("checksum2")
+    assert @response.body.include?("checksum4")
+    assert @response.body.include?("checksum6")
+    assert @response.body.include?("checksum8")
+    assert @response.body.include?("checksum10")
+
   end
 
 
