@@ -37,33 +37,6 @@ class ImagesControllerTest < ActionController::TestCase
   
   end
 
-=begin
-  test "latest" do
-  
-    i = Image.new(:filename => "asdasd.jpg", 
-                  :hatified_file_checksum => "checksum123")
-
-    image_mock = flexmock(Image)
-
-    expected_find_args = []
-    image_mock.should_receive(:find).once.
-      
-      with(:all, :order => "created_at desc",
-           :conditions => "hatified_file_checksum IS NOT NULL",
-           :limit => 100).
-      
-      and_return([i])
-
-    get :latest 
-    assert_response :success
-    assert_select 'images' do |i|
-      assert_select "image", 1
-    end
-    assert @response.body.include?("asdasd.jpg")
-    assert @response.body.include?("checksum123")
-  end
-=end
-
   test "latest" do
     Image.delete_all
 
