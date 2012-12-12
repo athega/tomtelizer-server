@@ -65,7 +65,7 @@ class ImagesController < ApplicationController
   end
 
   def latest
-    images = Image.find(:all, :order => "created_at desc", 
+    images = Image.find(:all, :order => "created_at asc", 
                         :conditions => "hatified_file_checksum IS NOT NULL", 
                         :limit => 100);
     #generated_files = Dir.glob(File.join(IMAGE_FILE_REPO, "thumb-*"))
