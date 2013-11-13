@@ -42,7 +42,13 @@ class ImagesController < ApplicationController
                          :face_features_attributes => features, 
                          :orientation => params['orientation'])
 
-      Delayed::Job.enqueue ProcessImageJob.new(img.to_param, add_hats)
+      if params["rotate"].nil?
+        rotate = false
+      else
+        rotate = true
+      end
+
+      Delayed::Job.enqueue ProcessImageJob.new(img.to_param, add_hats, rotate)
     end
   end
 

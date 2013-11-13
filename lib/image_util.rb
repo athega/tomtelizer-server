@@ -11,7 +11,7 @@ class ImageUtil
   HAT_SCALE_FACTOR = 0.65
 
   #should not use persisted object as dto param...
-  def add_hat(image, add_hats)
+  def add_hat(image, add_hats, rotate = false)
     return if image.nil?
 
     basename = image.filename
@@ -76,6 +76,16 @@ class ImageUtil
       end
 
     end
+
+    # if image is posted from checkin app 
+    # we must rotate it
+    if rotate
+      img.rotate!(90)
+      original = Magick::ImageList.new(target_path)
+      original.rotate!(90)
+      original.write(File.join(target_path))
+    end
+
     #we must have a 'hatified' image even though we dont have any feature data..
     img.write(File.join(ImageUtil.repo, "hatified-#{basename}"))
 
