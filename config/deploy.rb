@@ -8,7 +8,14 @@ require "delayed/recipes"
 
 set :default_stage, "production"
 set :stages, %w(production)
+
 require 'capistrano/ext/multistage'
+
+#############################################################
+#	RVM
+#############################################################
+
+set :rvm_type, :system
 
 #############################################################
 #	Application
