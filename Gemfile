@@ -27,15 +27,17 @@ end
 
 gem 'jquery-rails'
 
+group :development do
+  gem 'capistrano', '~> 2.15'
+  gem 'capistrano-ext', '~> 1.2.1'
+  gem 'rvm-capistrano', '~> 1.5.1'
+end
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
 # Use unicorn as the web server
 # gem 'unicorn'
 
-# Deploy with Capistrano
-# gem 'capistrano'
-
 # To use debugger
 # gem 'ruby-debug'
-
