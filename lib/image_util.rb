@@ -8,7 +8,7 @@ class ImageUtil
 
   include Magick
 
-  HAT_SCALE_FACTOR = 0.55
+  HAT_SCALE_FACTOR = 0.65
 
   #should not use persisted object as dto param...
   def add_hat(image, add_hats, rotate = false)
@@ -38,8 +38,11 @@ class ImageUtil
 
 
           #add HAT!
-          hat = Image.read(File.join(Rails.root, 'public','images','lucia-hat.png'))[0]
+          hat_file = ['lucia-hat.png', 'santa-hat.png', 'star-hat.png'].sample
+          hat  = Image.read(File.join(Rails.root, 'public','images', hat_file))[0]
+
           hat.background_color = 'none'
+
           angle = -1 * hat_position[:angle]
           puts  "angle: #{angle}"
 
@@ -48,7 +51,6 @@ class ImageUtil
           pre_rot_width = hat.columns
           hat.rotate!(angle)
           width_rotation_correction = (hat.columns-pre_rot_width)/2
-
 
           inner_image = img[0]
 
@@ -70,7 +72,6 @@ class ImageUtil
                                  center_x - hat.columns/2,
                                  height - center_y - hat.rows/2,
                                  OverCompositeOp)
-
         end
       end
     end
@@ -79,6 +80,7 @@ class ImageUtil
     # we must rotate it
     if rotate
       img.rotate!(90)
+
       original = Magick::ImageList.new(target_path)
       original.rotate!(90)
       original.write(File.join(target_path))
@@ -96,6 +98,7 @@ class ImageUtil
                             :hatified_file_size => hatified_size)
 
     rez = img.resize_to_fit(200, 149)
+
     File.open( File.join(ImageUtil.repo, "thumb-#{basename}"), 'wb') do |f|
       f.write(rez.to_blob)
     end
