@@ -8,7 +8,7 @@ class ImageUtil
 
   include Magick
 
-  HAT_SCALE_FACTOR = 0.65
+  HAT_SCALE_FACTOR = 0.55
 
   #should not use persisted object as dto param...
   def add_hat(image, add_hats, rotate = false)
@@ -38,7 +38,7 @@ class ImageUtil
 
 
           #add HAT!
-          hat = Image.read(File.join(Rails.root, 'public','images','star-hat-wide.png'))[0]
+          hat = Image.read(File.join(Rails.root, 'public','images','star-hat.png'))[0]
           hat.background_color = 'none'
           angle = -1 * hat_position[:angle]
           puts  "angle: #{angle}"
