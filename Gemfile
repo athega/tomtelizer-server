@@ -12,7 +12,7 @@ gem 'json'
 gem 'daemons'
 gem 'delayed_job_active_record'
 gem 'delayed_job'
-
+gem 'therubyracer'
 gem 'rmagick', :require => false
 
 gem 'factory_girl_rails'
