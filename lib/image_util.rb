@@ -38,7 +38,7 @@ class ImageUtil
 
 
           #add HAT!
-          hat = Image.read(File.join(Rails.root, 'public','images','star-hat.png'))[0]
+          hat = Image.read(File.join(Rails.root, 'public','images','star-hat-wide.png'))[0]
           hat.background_color = 'none'
           angle = -1 * hat_position[:angle]
           puts  "angle: #{angle}"
