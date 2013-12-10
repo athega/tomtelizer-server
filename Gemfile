@@ -10,6 +10,7 @@ gem 'sqlite3'
 gem 'json'
 
 gem 'daemons'
+gem 'delayed_job_active_record'
 gem 'delayed_job'
 
 gem 'rmagick', :require => false
