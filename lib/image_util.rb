@@ -38,7 +38,7 @@ class ImageUtil
 
 
           #add HAT!
-          hat = Image.read(File.join(Rails.root, 'public','images','santa-hat.png'))[0]
+          hat = Image.read(File.join(Rails.root, 'public','images','star-hat.png'))[0]
           hat.background_color = 'none'
           angle = -1 * hat_position[:angle]
           puts  "angle: #{angle}"
@@ -72,12 +72,10 @@ class ImageUtil
                                  OverCompositeOp)
 
         end
-
       end
-
     end
 
-    # if image is posted from checkin app 
+    # if image is posted from checkin app
     # we must rotate it
     if rotate
       img.rotate!(90)
@@ -93,7 +91,7 @@ class ImageUtil
     hatified_size = img.to_blob.size
 
     #UPDATE image data:
-    image.update_attributes(:width => width, :height => height, 
+    image.update_attributes(:width => width, :height => height,
                             :hatified_file_checksum => hatified_digest,
                             :hatified_file_size => hatified_size)
 
@@ -159,5 +157,4 @@ class ImageUtil
   def self.repo
     File.join(Rails.root, "public", "uploaded_images")
   end
-
 end
