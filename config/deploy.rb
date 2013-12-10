@@ -1,3 +1,4 @@
+require "rvm/capistrano"
 require "bundler/capistrano"
 require "delayed/recipes"
 
