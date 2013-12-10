@@ -46,6 +46,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.3)
+    daemons (1.1.9)
     delayed_job (4.0.0)
       activesupport (>= 3.0, < 4.1)
     erubis (2.7.0)
@@ -135,6 +136,7 @@ DEPENDENCIES
   capistrano (~> 2.15)
   capistrano-ext (~> 1.2.1)
   coffee-rails (~> 3.1.1)
+  daemons
   delayed_job
   factory_girl_rails
   flexmock
