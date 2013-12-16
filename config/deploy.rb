@@ -1,3 +1,4 @@
+require "rvm/capistrano"
 require "bundler/capistrano"
 require "delayed/recipes"
 
@@ -7,7 +8,14 @@ require "delayed/recipes"
 
 set :default_stage, "production"
 set :stages, %w(production)
+
 require 'capistrano/ext/multistage'
+
+#############################################################
+#	RVM
+#############################################################
+
+set :rvm_type, :system
 
 #############################################################
 #	Application
@@ -25,6 +33,12 @@ after "deploy:update", "deploy:cleanup"
 set :user, "deploy"
 set :use_sudo, false
 set :rails_env, "production" #added for delayed job
+
+#############################################################
+#	Delayed Job
+#############################################################
+
+set :delayed_job_args, "-n 2"
 
 #############################################################
 #	Git

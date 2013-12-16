@@ -39,8 +39,11 @@ class ImageUtil
 
 
           #add HAT!
-          hat = Image.read(File.join(Rails.root, 'public','images','santa-hat.png'))[0]
+          hat_file = ['lucia-hat.png', 'santa-hat.png', 'star-hat.png'].sample
+          hat  = Image.read(File.join(Rails.root, 'public','images', hat_file))[0]
+
           hat.background_color = 'none'
+
           angle = -1 * hat_position[:angle]
           puts  "angle: #{angle}"
 
@@ -49,7 +52,6 @@ class ImageUtil
           pre_rot_width = hat.columns
           hat.rotate!(angle)
           width_rotation_correction = (hat.columns-pre_rot_width)/2
-
 
           inner_image = img[0]
 
@@ -71,17 +73,15 @@ class ImageUtil
                                  center_x - hat.columns/2,
                                  height - center_y - hat.rows/2,
                                  OverCompositeOp)
-
         end
-
       end
-
     end
 
-    # if image is posted from checkin app 
+    # if image is posted from checkin app
     # we must rotate it
     if rotate
       img.rotate!(90)
+
       original = Magick::ImageList.new(target_path)
       original.rotate!(90)
       original.write(File.join(target_path))
@@ -94,11 +94,12 @@ class ImageUtil
     hatified_size = img.to_blob.size
 
     #UPDATE image data:
-    image.update_attributes(:width => width, :height => height, 
+    image.update_attributes(:width => width, :height => height,
                             :hatified_file_checksum => hatified_digest,
                             :hatified_file_size => hatified_size)
 
     rez = img.resize_to_fit(200, 149)
+
     File.open( File.join(ImageUtil.repo, "thumb-#{basename}"), 'wb') do |f|
       f.write(rez.to_blob)
     end
@@ -160,5 +161,4 @@ class ImageUtil
   def self.repo
     File.join(Rails.root, "public", "uploaded_images")
   end
-
 end
