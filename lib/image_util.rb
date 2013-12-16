@@ -33,6 +33,7 @@ class ImageUtil
         next unless feature_is_valid?(feature)
 
         hat_position = HatCalculator.calculate_position(feature)
+        puts "---"
         puts hat_position.inspect
         unless(hat_position.nil?)
 
